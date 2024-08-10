@@ -6,7 +6,6 @@ export const executeCommand = async (
     setHistory,
     inputref
 ) => {
-    let data;
     const [cmd, ...args] = command.split(" ");
     switch (cmd) {
         case "help":
@@ -38,16 +37,26 @@ export const executeCommand = async (
             break;
         case "username":
             const email = args[0].trim();
-            const dataus = await getUsername(email);
-            if (dataus.username) {
-                setHistory([
-                    ...history,
-                    {
-                        command: `username ${email}`,
-                        output: `Username: ${dataus.username}`,
-                    },
-                ]);
-            } else {
+            try {
+                const dataus = await getUsername(email);
+                if (dataus.username) {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `username ${email}`,
+                            output: `Username: ${dataus.username}`,
+                        },
+                    ]);
+                } else {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `username ${email}`,
+                            output: "User not found",
+                        },
+                    ]);
+                }
+            } catch (err) {
                 setHistory([
                     ...history,
                     {
@@ -61,22 +70,32 @@ export const executeCommand = async (
         case "submit":
             const username = args[0].split(":")[0].trim();
             const flag = args[0].split(":")[1].trim();
-            const datafl = await submitFlag(username, flag);
+            try {
+                const datafl = await submitFlag(username, flag);
 
-            if (datafl.success) {
+                if (datafl.success) {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `submit ${username}:${flag}`,
+                            output: `Congratulations! You have completed level .\nPassword for next level is ${datafl.password}`,
+                        },
+                    ]);
+                } else {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `submit ${username}:${flag}`,
+                            output: datafl.msg,
+                        },
+                    ]);
+                }
+            } catch (err) {
                 setHistory([
                     ...history,
                     {
                         command: `submit ${username}:${flag}`,
-                        output: `Congratulations! You have completed level .\nPassword for next level is ${datafl.password}`,
-                    },
-                ]);
-            } else {
-                setHistory([
-                    ...history,
-                    {
-                        command: `submit ${username}:${flag}`,
-                        output: datafl.msg,
+                        output: "Invalid flag",
                     },
                 ]);
             }
@@ -84,16 +103,26 @@ export const executeCommand = async (
 
         case "show":
             const username2 = args[0].trim();
-            const datash = (await getUserStats(username2)).data;
-            if (datash.username) {
-                setHistory([
-                    ...history,
-                    {
-                        command: `show ${username2}`,
-                        output: `Username: ${datash.username}\nLevel: ${datash.curlevel}`,
-                    },
-                ]);
-            } else {
+            try {
+                const datash = (await getUserStats(username2)).data;
+                if (datash.username) {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `show ${username2}`,
+                            output: `Username: ${datash.username}\nLevel: ${datash.curlevel}`,
+                        },
+                    ]);
+                } else {
+                    setHistory([
+                        ...history,
+                        {
+                            command: `show ${username2}`,
+                            output: "User not found",
+                        },
+                    ]);
+                }
+            } catch (err) {
                 setHistory([
                     ...history,
                     {
@@ -112,6 +141,5 @@ export const executeCommand = async (
                 },
             ]);
             break;
-
     }
 };
