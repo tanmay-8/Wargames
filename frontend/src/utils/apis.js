@@ -1,6 +1,6 @@
 export const getUsername = async (email) => {
     try {
-        const res = await fetch("http://localhost:5000/api/getUsername", {
+        const res = await fetch("https://wargames.onrender.com/api/getUsername", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const getUsername = async (email) => {
 
 export const submitFlag = async (username, flag) => {
     try {
-        const res = await fetch("http://localhost:5000/api/submit", {
+        const res = await fetch("https://wargames.onrender.com/api/submit", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export const submitFlag = async (username, flag) => {
 
 export const getUserStats = async (username) => {
     try {
-        const res = await fetch("http://localhost:5000/api/show", {
+        const res = await fetch("https://wargames.onrender.com/api/show", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

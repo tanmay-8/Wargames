@@ -7,7 +7,7 @@ const Leaderboard = () => {
 
     const getData = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/leaderboard");
+            const res = await fetch("https://wargames.onrender.com/api/leaderboard");
             const data = await res.json();
             if (data) {
                 setUsers(data.data);
