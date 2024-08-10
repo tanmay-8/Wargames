@@ -37,17 +37,19 @@ const Home = () => {
                         className="bg-transparent text-white outline-none w-[70%]"
                         type="text"
                         placeholder="Enter command"
-                        onKeyDown={(e) => {
+                        onKeyDown={async (e) => {
                             if (e.key === "Enter") {
-                                executeCommand(
+                                await executeCommand(
                                     inputref.current.value,
                                     history,
                                     setHistory,
                                     inputref
                                 );
-                                
-                            }else if(e.key === "ArrowUp"){
-                                inputref.current.value = history[history.length-1].command;
+
+                                inputref.current.value = "";
+                            } else if (e.key === "ArrowUp") {
+                                inputref.current.value =
+                                    history[history.length - 1].command;
                             }
                         }}
                         ref={inputref}

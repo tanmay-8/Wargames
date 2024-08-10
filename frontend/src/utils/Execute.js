@@ -8,7 +8,6 @@ export const executeCommand = async (
 ) => {
     let data;
     const [cmd, ...args] = command.split(" ");
-    inputref.current.value = "";
     switch (cmd) {
         case "help":
             setHistory([
@@ -64,7 +63,6 @@ export const executeCommand = async (
             const flag = args[0].split(":")[1].trim();
             const datafl = await submitFlag(username, flag);
 
-
             if (datafl.success) {
                 setHistory([
                     ...history,
@@ -73,7 +71,7 @@ export const executeCommand = async (
                         output: `Congratulations! You have completed level .\nPassword for next level is ${datafl.password}`,
                     },
                 ]);
-            }else{
+            } else {
                 setHistory([
                     ...history,
                     {
@@ -83,7 +81,7 @@ export const executeCommand = async (
                 ]);
             }
             break;
-        
+
         case "show":
             const username2 = args[0].trim();
             const datash = (await getUserStats(username2)).data;
@@ -114,5 +112,6 @@ export const executeCommand = async (
                 },
             ]);
             break;
+
     }
 };
